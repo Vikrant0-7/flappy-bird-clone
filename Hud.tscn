@@ -1,0 +1,207 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://font/FiraCode-Bold.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://gfx/pause.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/Hud.cs" type="Script" id=3]
+[ext_resource path="res://MainMenu/MainMenu.theme" type="Theme" id=4]
+[ext_resource path="res://gfx/background-day.png" type="Texture" id=5]
+
+[sub_resource type="Theme" id=1]
+
+[sub_resource type="DynamicFont" id=3]
+size = 60
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 22
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="Shader" id=5]
+code = "shader_type canvas_item;
+
+uniform float lod: hint_range(0.0, 5) = 0.0;
+
+void fragment(){
+	vec4 color = texture(SCREEN_TEXTURE, SCREEN_UV, lod);
+	COLOR = color;
+}"
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 5 )
+shader_param/lod = 2.494
+
+[sub_resource type="ShaderMaterial" id=7]
+shader = SubResource( 5 )
+shader_param/lod = 4.0
+
+[node name="HUD" type="CanvasLayer"]
+pause_mode = 2
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_vertical_guides_": [ 1321.0 ]
+}
+
+[node name="GameHUD" type="Control" parent="."]
+unique_name_in_owner = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1.0
+margin_bottom = 9.0
+theme = SubResource( 1 )
+
+[node name="ScoreNumber" type="Label" parent="GameHUD"]
+unique_name_in_owner = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 853.0
+margin_top = 34.0
+margin_right = -26.0
+margin_bottom = -605.0
+custom_fonts/font = SubResource( 3 )
+text = "0123456789"
+align = 2
+
+[node name="Gamemode" type="Label" parent="GameHUD"]
+unique_name_in_owner = true
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = -57.0
+margin_right = 268.0
+margin_bottom = -29.0
+custom_fonts/font = SubResource( 4 )
+text = "Normal: Triangular"
+
+[node name="Pause" type="Button" parent="GameHUD"]
+margin_right = 12.0
+margin_bottom = 20.0
+focus_mode = 0
+icon = ExtResource( 2 )
+flat = true
+
+[node name="PauseMenu" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 4 )
+
+[node name="BG2" type="TextureRect" parent="PauseMenu"]
+unique_name_in_owner = true
+show_behind_parent = true
+material = SubResource( 6 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_vertical = 2
+rect_scale = Vector2( 1.4, 1.2032 )
+rect_pivot_offset = Vector2( 512, 512 )
+texture = ExtResource( 5 )
+stretch_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu"]
+pause_mode = 2
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -150.0
+margin_top = -82.0
+margin_right = 150.0
+margin_bottom = 82.0
+
+[node name="Resume" type="Button" parent="PauseMenu/VBoxContainer"]
+unique_name_in_owner = true
+margin_right = 300.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 0, 80 )
+focus_mode = 0
+text = "Resume"
+
+[node name="Main Menu" type="Button" parent="PauseMenu/VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 84.0
+margin_right = 300.0
+margin_bottom = 164.0
+rect_min_size = Vector2( 0, 80 )
+text = "Main Menu"
+
+[node name="DieMenu" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 4 )
+
+[node name="HS" type="Label" parent="DieMenu"]
+unique_name_in_owner = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -215.0
+margin_top = -231.0
+margin_right = 667.0
+margin_bottom = -69.0
+rect_min_size = Vector2( 882, 162 )
+rect_scale = Vector2( 0.5, 0.5 )
+custom_colors/font_color = Color( 0.54902, 0.996078, 0.403922, 1 )
+custom_fonts/font = SubResource( 3 )
+text = "Highscore!!!"
+align = 1
+valign = 1
+
+[node name="ScoreNumberDie" type="Label" parent="DieMenu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -220.5
+margin_top = -280.0
+margin_right = 220.5
+margin_bottom = -199.0
+custom_fonts/font = SubResource( 3 )
+text = "12125"
+align = 1
+valign = 1
+
+[node name="BG2" type="TextureRect" parent="DieMenu"]
+modulate = Color( 0.772549, 0.772549, 0.772549, 0.941176 )
+show_behind_parent = true
+material = SubResource( 7 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_vertical = 2
+rect_scale = Vector2( 1.4, 1.2032 )
+rect_pivot_offset = Vector2( 512, 512 )
+texture = ExtResource( 5 )
+stretch_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DieMenu"]
+pause_mode = 2
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -150.0
+margin_top = -82.0
+margin_right = 150.0
+margin_bottom = 82.0
+
+[node name="Resume" type="Button" parent="DieMenu/VBoxContainer"]
+margin_right = 300.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 0, 80 )
+text = "Restart"
+
+[node name="Main Menu" type="Button" parent="DieMenu/VBoxContainer"]
+margin_top = 84.0
+margin_right = 300.0
+margin_bottom = 164.0
+rect_min_size = Vector2( 0, 80 )
+text = "Main Menu"
+
+[connection signal="pressed" from="GameHUD/Pause" to="." method="_on_Pause"]
+[connection signal="pressed" from="PauseMenu/VBoxContainer/Resume" to="." method="_on_Resume"]
+[connection signal="pressed" from="PauseMenu/VBoxContainer/Main Menu" to="." method="_on_Main_Menu"]
+[connection signal="pressed" from="DieMenu/VBoxContainer/Resume" to="." method="_on_Restart_pressed"]
+[connection signal="pressed" from="DieMenu/VBoxContainer/Main Menu" to="." method="_on_Main_Menu"]

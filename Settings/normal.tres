@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/Hardness.cs" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+pipeSpeed = 7.0
+gap = 2.0
+spawnTime = 1.5
+birdSpeed = 5.5
+generator = 2

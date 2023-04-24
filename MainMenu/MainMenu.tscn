@@ -1,0 +1,577 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://Pipe/PipeGenerator.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scripts/MainMenu/MainMenu.cs" type="Script" id=2]
+[ext_resource path="res://gfx/background-day.png" type="Texture" id=3]
+[ext_resource path="res://MainMenu/BirdAuto.tscn" type="PackedScene" id=4]
+[ext_resource path="res://MainMenu/MainMenu.theme" type="Theme" id=5]
+[ext_resource path="res://font/FiraCode-Bold.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://Scripts/MainMenu/Highscore.cs" type="Script" id=7]
+[ext_resource path="res://Scripts/MainMenu/ModesMenu.cs" type="Script" id=8]
+[ext_resource path="res://font/FiraCode-Light.ttf" type="DynamicFontData" id=9]
+
+[sub_resource type="Shader" id=3]
+code = "shader_type canvas_item;
+
+uniform float lod: hint_range(0.0, 5) = 0.0;
+
+void fragment(){
+	vec4 color = texture(SCREEN_TEXTURE, SCREEN_UV, lod);
+	COLOR = color;
+}"
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 3 )
+shader_param/lod = 2.098
+
+[sub_resource type="StyleBoxFlat" id=15]
+bg_color = Color( 1, 0, 0.819608, 0.0705882 )
+
+[sub_resource type="DynamicFont" id=16]
+size = 64
+use_filter = true
+font_data = ExtResource( 9 )
+
+[sub_resource type="DynamicFont" id=17]
+size = 22
+use_filter = true
+font_data = ExtResource( 6 )
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 5 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 720.0 ],
+"_edit_vertical_guides_": [ 1320.0 ]
+}
+
+[node name="BackGround" type="CanvasLayer" parent="."]
+layer = -10
+
+[node name="PipeGenerator" parent="BackGround" instance=ExtResource( 1 )]
+unique_name_in_owner = true
+
+[node name="BirdAuto" parent="BackGround" instance=ExtResource( 4 )]
+unique_name_in_owner = true
+position = Vector2( 260, 364 )
+
+[node name="BG2" type="TextureRect" parent="BackGround"]
+unique_name_in_owner = true
+modulate = Color( 0.701961, 0.631373, 0.631373, 1 )
+material = SubResource( 4 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -143.36
+margin_top = -312.0
+margin_right = -135.36
+margin_bottom = 112.0
+grow_vertical = 2
+rect_scale = Vector2( 1.28, 1 )
+rect_pivot_offset = Vector2( 512, 512 )
+texture = ExtResource( 3 )
+stretch_mode = 2
+
+[node name="MainMenu" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -226.666
+margin_top = -239.777
+margin_right = 226.666
+margin_bottom = 239.777
+rect_min_size = Vector2( 320, 0 )
+
+[node name="Start" type="Button" parent="MainMenu"]
+margin_right = 453.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 0, 80 )
+focus_mode = 0
+text = "Start"
+icon_align = 1
+
+[node name="Modes" type="Button" parent="MainMenu"]
+margin_top = 84.0
+margin_right = 453.0
+margin_bottom = 164.0
+rect_min_size = Vector2( 0, 80 )
+focus_mode = 0
+text = "Modes"
+
+[node name="Highscore" type="Button" parent="MainMenu"]
+margin_top = 168.0
+margin_right = 453.0
+margin_bottom = 248.0
+rect_min_size = Vector2( 0, 80 )
+focus_mode = 0
+text = "Highscore"
+
+[node name="Quit" type="Button" parent="MainMenu"]
+margin_top = 252.0
+margin_right = 453.0
+margin_bottom = 332.0
+rect_min_size = Vector2( 0, 80 )
+focus_mode = 0
+text = "Quit"
+
+[node name="ModesMenu" type="VBoxContainer" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -304.0
+margin_top = -325.5
+margin_right = 304.0
+margin_bottom = 325.5
+script = ExtResource( 8 )
+
+[node name="Hardness" type="Label" parent="ModesMenu"]
+margin_right = 608.0
+margin_bottom = 48.0
+text = "Hardness"
+align = 1
+
+[node name="HardnessSelector" type="HBoxContainer" parent="ModesMenu"]
+margin_top = 52.0
+margin_right = 608.0
+margin_bottom = 132.0
+rect_min_size = Vector2( 0, 80 )
+
+[node name="Easy" type="Button" parent="ModesMenu/HardnessSelector"]
+margin_right = 200.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 200, 0 )
+focus_mode = 0
+text = "Kid"
+
+[node name="Normal" type="Button" parent="ModesMenu/HardnessSelector"]
+margin_left = 204.0
+margin_right = 404.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 200, 0 )
+text = "Man"
+
+[node name="Hard" type="Button" parent="ModesMenu/HardnessSelector"]
+margin_left = 408.0
+margin_right = 608.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 200, 0 )
+text = "Legend"
+
+[node name="HSeparator" type="HSeparator" parent="ModesMenu"]
+margin_top = 136.0
+margin_right = 608.0
+margin_bottom = 165.0
+custom_constants/separation = 29
+
+[node name="GameMode" type="Label" parent="ModesMenu"]
+margin_top = 169.0
+margin_right = 608.0
+margin_bottom = 217.0
+text = "Level Generation"
+align = 1
+
+[node name="WorldGeneration" type="VBoxContainer" parent="ModesMenu"]
+margin_top = 221.0
+margin_right = 608.0
+margin_bottom = 469.0
+
+[node name="T" type="Button" parent="ModesMenu/WorldGeneration"]
+margin_right = 608.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 0, 80 )
+focus_mode = 0
+custom_styles/normal = SubResource( 15 )
+text = "Triangular"
+
+[node name="S" type="Button" parent="ModesMenu/WorldGeneration"]
+margin_top = 84.0
+margin_right = 608.0
+margin_bottom = 164.0
+rect_min_size = Vector2( 0, 80 )
+focus_mode = 0
+text = "Sine"
+
+[node name="C" type="Button" parent="ModesMenu/WorldGeneration"]
+margin_top = 168.0
+margin_right = 608.0
+margin_bottom = 248.0
+rect_min_size = Vector2( 0, 80 )
+focus_mode = 0
+text = "Classic"
+
+[node name="HSeparator2" type="HSeparator" parent="ModesMenu"]
+margin_top = 473.0
+margin_right = 608.0
+margin_bottom = 567.0
+custom_constants/separation = 94
+
+[node name="Back" type="Button" parent="ModesMenu"]
+margin_top = 571.0
+margin_right = 608.0
+margin_bottom = 651.0
+rect_min_size = Vector2( 0, 80 )
+focus_mode = 0
+text = "Back"
+
+[node name="Highscore" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -533.0
+margin_top = -166.0
+margin_right = 1601.0
+margin_bottom = 499.0
+rect_scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 7 )
+
+[node name="HLabel" type="HBoxContainer" parent="Highscore"]
+margin_right = 2134.0
+margin_bottom = 48.0
+
+[node name="Easy" type="Label" parent="Highscore/HLabel"]
+margin_right = 672.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 672, 0 )
+text = "EASY"
+align = 1
+
+[node name="VSeparator2" type="VSeparator" parent="Highscore/HLabel"]
+margin_left = 676.0
+margin_right = 726.0
+margin_bottom = 48.0
+custom_constants/separation = 50
+
+[node name="Normal" type="Label" parent="Highscore/HLabel"]
+margin_left = 730.0
+margin_right = 1402.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 672, 0 )
+text = "NORMAL"
+align = 1
+
+[node name="VSeparator" type="VSeparator" parent="Highscore/HLabel"]
+margin_left = 1406.0
+margin_right = 1456.0
+margin_bottom = 48.0
+custom_constants/separation = 50
+
+[node name="Hard" type="Label" parent="Highscore/HLabel"]
+margin_left = 1460.0
+margin_right = 2132.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 672, 0 )
+text = "HARD"
+align = 1
+
+[node name="WorldGeneration" type="HBoxContainer" parent="Highscore"]
+margin_top = 52.0
+margin_right = 2134.0
+margin_bottom = 665.0
+
+[node name="Easy" type="VBoxContainer" parent="Highscore/WorldGeneration"]
+margin_right = 706.0
+margin_bottom = 613.0
+
+[node name="HSeparator3" type="HSeparator" parent="Highscore/WorldGeneration/Easy"]
+margin_right = 706.0
+margin_bottom = 50.0
+custom_constants/separation = 50
+
+[node name="T" type="HBoxContainer" parent="Highscore/WorldGeneration/Easy"]
+margin_top = 54.0
+margin_right = 706.0
+margin_bottom = 134.0
+
+[node name="Label" type="Label" parent="Highscore/WorldGeneration/Easy/T"]
+margin_right = 468.0
+margin_bottom = 80.0
+custom_fonts/font = SubResource( 16 )
+text = "Triangular: "
+
+[node name="ET" type="Label" parent="Highscore/WorldGeneration/Easy/T"]
+unique_name_in_owner = true
+margin_left = 472.0
+margin_right = 706.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 234, 0 )
+custom_fonts/font = SubResource( 16 )
+text = "0"
+
+[node name="HSeparator" type="HSeparator" parent="Highscore/WorldGeneration/Easy"]
+margin_top = 138.0
+margin_right = 706.0
+margin_bottom = 188.0
+custom_constants/separation = 50
+
+[node name="S" type="HBoxContainer" parent="Highscore/WorldGeneration/Easy"]
+margin_top = 192.0
+margin_right = 706.0
+margin_bottom = 272.0
+
+[node name="Label" type="Label" parent="Highscore/WorldGeneration/Easy/S"]
+margin_right = 468.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 468, 0 )
+custom_fonts/font = SubResource( 16 )
+text = "Sine: "
+align = 2
+
+[node name="ES" type="Label" parent="Highscore/WorldGeneration/Easy/S"]
+unique_name_in_owner = true
+margin_left = 472.0
+margin_right = 511.0
+margin_bottom = 80.0
+custom_fonts/font = SubResource( 16 )
+text = "0"
+
+[node name="HSeparator2" type="HSeparator" parent="Highscore/WorldGeneration/Easy"]
+margin_top = 276.0
+margin_right = 706.0
+margin_bottom = 326.0
+custom_constants/separation = 50
+
+[node name="C" type="HBoxContainer" parent="Highscore/WorldGeneration/Easy"]
+margin_top = 330.0
+margin_right = 706.0
+margin_bottom = 410.0
+
+[node name="Label" type="Label" parent="Highscore/WorldGeneration/Easy/C"]
+margin_right = 468.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 468, 0 )
+custom_fonts/font = SubResource( 16 )
+text = "Classic: "
+align = 2
+
+[node name="EC" type="Label" parent="Highscore/WorldGeneration/Easy/C"]
+unique_name_in_owner = true
+margin_left = 472.0
+margin_right = 511.0
+margin_bottom = 80.0
+custom_fonts/font = SubResource( 16 )
+text = "0"
+
+[node name="VSeparator" type="VSeparator" parent="Highscore/WorldGeneration"]
+margin_left = 710.0
+margin_right = 710.0
+margin_bottom = 613.0
+custom_constants/separation = -76
+
+[node name="Normal" type="VBoxContainer" parent="Highscore/WorldGeneration"]
+margin_left = 714.0
+margin_right = 1420.0
+margin_bottom = 613.0
+
+[node name="HSeparator3" type="HSeparator" parent="Highscore/WorldGeneration/Normal"]
+margin_right = 706.0
+margin_bottom = 50.0
+custom_constants/separation = 50
+
+[node name="T" type="HBoxContainer" parent="Highscore/WorldGeneration/Normal"]
+margin_top = 54.0
+margin_right = 706.0
+margin_bottom = 134.0
+
+[node name="Label" type="Label" parent="Highscore/WorldGeneration/Normal/T"]
+margin_right = 468.0
+margin_bottom = 80.0
+custom_fonts/font = SubResource( 16 )
+text = "Triangular: "
+
+[node name="NT" type="Label" parent="Highscore/WorldGeneration/Normal/T"]
+unique_name_in_owner = true
+margin_left = 472.0
+margin_right = 706.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 234, 0 )
+custom_fonts/font = SubResource( 16 )
+text = "0"
+
+[node name="HSeparator" type="HSeparator" parent="Highscore/WorldGeneration/Normal"]
+margin_top = 138.0
+margin_right = 706.0
+margin_bottom = 188.0
+custom_constants/separation = 50
+
+[node name="S" type="HBoxContainer" parent="Highscore/WorldGeneration/Normal"]
+margin_top = 192.0
+margin_right = 706.0
+margin_bottom = 272.0
+
+[node name="Label" type="Label" parent="Highscore/WorldGeneration/Normal/S"]
+margin_right = 468.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 468, 0 )
+custom_fonts/font = SubResource( 16 )
+text = "Sine: "
+align = 2
+
+[node name="NS" type="Label" parent="Highscore/WorldGeneration/Normal/S"]
+unique_name_in_owner = true
+margin_left = 472.0
+margin_right = 672.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 200, 0 )
+custom_fonts/font = SubResource( 16 )
+text = "0"
+
+[node name="HSeparator2" type="HSeparator" parent="Highscore/WorldGeneration/Normal"]
+margin_top = 276.0
+margin_right = 706.0
+margin_bottom = 326.0
+custom_constants/separation = 50
+
+[node name="C" type="HBoxContainer" parent="Highscore/WorldGeneration/Normal"]
+margin_top = 330.0
+margin_right = 706.0
+margin_bottom = 410.0
+
+[node name="Label" type="Label" parent="Highscore/WorldGeneration/Normal/C"]
+margin_right = 468.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 468, 0 )
+custom_fonts/font = SubResource( 16 )
+text = "Classic: "
+align = 2
+
+[node name="NC" type="Label" parent="Highscore/WorldGeneration/Normal/C"]
+unique_name_in_owner = true
+margin_left = 472.0
+margin_right = 672.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 200, 0 )
+custom_fonts/font = SubResource( 16 )
+text = "0"
+
+[node name="HSeparator4" type="HSeparator" parent="Highscore/WorldGeneration/Normal"]
+margin_top = 414.0
+margin_right = 706.0
+margin_bottom = 529.0
+custom_constants/separation = 115
+
+[node name="Back" type="Button" parent="Highscore/WorldGeneration/Normal"]
+margin_top = 533.0
+margin_right = 706.0
+margin_bottom = 613.0
+rect_min_size = Vector2( 0, 80 )
+text = "Back"
+
+[node name="VSeparator2" type="VSeparator" parent="Highscore/WorldGeneration"]
+margin_left = 1424.0
+margin_right = 1424.0
+margin_bottom = 613.0
+custom_constants/separation = -424
+
+[node name="Hard" type="VBoxContainer" parent="Highscore/WorldGeneration"]
+margin_left = 1428.0
+margin_right = 2134.0
+margin_bottom = 613.0
+
+[node name="HSeparator3" type="HSeparator" parent="Highscore/WorldGeneration/Hard"]
+margin_right = 706.0
+margin_bottom = 50.0
+custom_constants/separation = 50
+
+[node name="T" type="HBoxContainer" parent="Highscore/WorldGeneration/Hard"]
+margin_top = 54.0
+margin_right = 706.0
+margin_bottom = 134.0
+
+[node name="Label" type="Label" parent="Highscore/WorldGeneration/Hard/T"]
+margin_right = 468.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 468, 0 )
+custom_fonts/font = SubResource( 16 )
+text = "Triangular: "
+
+[node name="HT" type="Label" parent="Highscore/WorldGeneration/Hard/T"]
+unique_name_in_owner = true
+margin_left = 472.0
+margin_right = 706.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 234, 0 )
+custom_fonts/font = SubResource( 16 )
+text = "0"
+
+[node name="HSeparator" type="HSeparator" parent="Highscore/WorldGeneration/Hard"]
+margin_top = 138.0
+margin_right = 706.0
+margin_bottom = 188.0
+custom_constants/separation = 50
+
+[node name="S" type="HBoxContainer" parent="Highscore/WorldGeneration/Hard"]
+margin_top = 192.0
+margin_right = 706.0
+margin_bottom = 272.0
+
+[node name="Label" type="Label" parent="Highscore/WorldGeneration/Hard/S"]
+margin_right = 468.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 468, 0 )
+custom_fonts/font = SubResource( 16 )
+text = "Sine: "
+align = 2
+
+[node name="HS" type="Label" parent="Highscore/WorldGeneration/Hard/S"]
+unique_name_in_owner = true
+margin_left = 472.0
+margin_right = 511.0
+margin_bottom = 80.0
+custom_fonts/font = SubResource( 16 )
+text = "0"
+
+[node name="HSeparator2" type="HSeparator" parent="Highscore/WorldGeneration/Hard"]
+margin_top = 276.0
+margin_right = 706.0
+margin_bottom = 326.0
+custom_constants/separation = 50
+
+[node name="C" type="HBoxContainer" parent="Highscore/WorldGeneration/Hard"]
+margin_top = 330.0
+margin_right = 706.0
+margin_bottom = 410.0
+
+[node name="Label" type="Label" parent="Highscore/WorldGeneration/Hard/C"]
+margin_right = 468.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 468, 0 )
+custom_fonts/font = SubResource( 16 )
+text = "Classic: "
+align = 2
+
+[node name="HC" type="Label" parent="Highscore/WorldGeneration/Hard/C"]
+unique_name_in_owner = true
+margin_left = 472.0
+margin_right = 511.0
+margin_bottom = 80.0
+custom_fonts/font = SubResource( 16 )
+text = "0"
+
+[node name="Gamemode" type="Label" parent="."]
+unique_name_in_owner = true
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 37.0
+margin_top = -48.0
+margin_right = 289.0
+margin_bottom = -20.0
+custom_fonts/font = SubResource( 17 )
+text = "Normal: Triangular"
+
+[connection signal="pressed" from="MainMenu/Start" to="." method="_onStart"]
+[connection signal="pressed" from="MainMenu/Modes" to="." method="_onModes"]
+[connection signal="pressed" from="MainMenu/Highscore" to="." method="_onHighscore"]
+[connection signal="pressed" from="MainMenu/Quit" to="." method="_onQuit"]
+[connection signal="pressed" from="ModesMenu/HardnessSelector/Easy" to="ModesMenu" method="_onEasy"]
+[connection signal="pressed" from="ModesMenu/HardnessSelector/Normal" to="ModesMenu" method="_onNormal"]
+[connection signal="pressed" from="ModesMenu/HardnessSelector/Hard" to="ModesMenu" method="_onHard"]
+[connection signal="pressed" from="ModesMenu/WorldGeneration/T" to="ModesMenu" method="_onT"]
+[connection signal="pressed" from="ModesMenu/WorldGeneration/S" to="ModesMenu" method="_onS"]
+[connection signal="pressed" from="ModesMenu/WorldGeneration/C" to="ModesMenu" method="_onC"]
+[connection signal="pressed" from="ModesMenu/Back" to="." method="_on_Back_Modes"]
+[connection signal="pressed" from="Highscore/WorldGeneration/Normal/Back" to="." method="_on_Back_Highscore"]

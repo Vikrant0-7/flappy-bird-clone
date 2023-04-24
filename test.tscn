@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Pipe/PipeGenerator.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Bird.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scripts/Scene.cs" type="Script" id=4]
+[ext_resource path="res://Hud.tscn" type="PackedScene" id=5]
+
+[sub_resource type="PhysicsMaterial" id=1]
+bounce = 0.5
+absorbent = true
+
+[node name="Scene" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="HUD" parent="." instance=ExtResource( 5 )]
+
+[node name="PipeGenerator" parent="." instance=ExtResource( 2 )]
+
+[node name="Bird" parent="." instance=ExtResource( 3 )]
+position = Vector2( 260, 364 )
+
+[node name="Area2D" type="Area2D" parent="." groups=["WorldBoundary"]]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PoolVector2Array( 1280, 720, 0, 720, -2, 825, 1394, 801, 1394, -63, 0, -52, 0, 0, 1280, 0 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+physics_material_override = SubResource( 1 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( 1280, 720, 0, 720, -2, 825, 1394, 801, 1394, -63, 0, -52, 0, 0, 1280, 0 )
